@@ -13,7 +13,6 @@ app.use(express.static(`${__dirname}/public`));
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-
 //2) Routes
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);

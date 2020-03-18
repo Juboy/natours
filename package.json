@@ -8,6 +8,9 @@
     "start:prod": "SET NODE_ENV=production& nodemon server.js",
     "debug": "ndb server.js"
   },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "author": "Juwon",
   "license": "ISC",
   "dependencies": {
