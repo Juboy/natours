@@ -118,7 +118,7 @@ tourSchema.pre('find', function(next) {
 tourSchema.pre('aggregate', function(next) {
   //remove the secret tours from aggregate queries
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  console.log(this);
+  // console.log(this);
   next();
 });
 const Tour = mongoose.model('Tour', tourSchema);
