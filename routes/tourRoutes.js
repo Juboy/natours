@@ -1,31 +1,58 @@
 const express = require('express');
-const tourController = require('./../controllers/tourController.js');
-//you can also use destructuring to get all the exprots form the
-//const {getAllTours, createTour, getTour} =  require('./../controllers/tourController.js');
-
-const { protect, restrictTo } = require('./../controllers/authController');
+const tourController = require('./../controllers/tourController');
+const authController = require('./../controllers/authController');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
 
+// router.param('id', tourController.checkID);
+
+// POST /tour/234fad4/reviews
+// GET /tour/234fad4/reviews
+
+router.use('/:tourId/reviews', reviewRouter);
+
 router
   .route('/top-5-cheap')
-  .get(protect, tourController.aliasTopTours, tourController.getAllTours);
+  .get(tourController.aliasTopTours, tourController.getAllTours);
 
-router.route('/tour-stats').get(protect, tourController.getTourStats);
+router.route('/tour-stats').get(tourController.getTourStats);
+router
+  .route('/monthly-plan/:year')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide', 'guide'),
+    tourController.getMonthlyPlan
+  );
 
-router.route('/monthly-plan/:year').get(protect, tourController.getMonthlyPlan);
+router
+  .route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(tourController.getToursWithin);
+// /tours-within?distance=233&center=-40,45&unit=mi
+// /tours-within/233/center/-40,45/unit/mi
+
+router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
+
 router
   .route('/')
-  .get(protect, tourController.getAllTours)
-  .post(protect, tourController.createTour);
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.createTour
+  );
 
 router
   .route('/:id')
-  .get(protect, tourController.getTour)
-  .patch(protect, tourController.updateTour)
+  .get(tourController.getTour)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.updateTour
+  )
   .delete(
-    protect,
-    restrictTo('admin', 'lead-guide'),
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
     tourController.deleteTour
   );
 

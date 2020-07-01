@@ -34,6 +34,7 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+// In order not to allow one users review the same tour. Making the combo of a user and tour unique
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function(next) {

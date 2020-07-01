@@ -51,7 +51,7 @@ app.use(
   })
 );
 
-//Data sanitization agaonst NoSQL query injection
+//Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
 //Serving static files
