@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production& nodemon server.js",
-    "debug": "ndb server.js"
+    "debug": "ndb server.js",
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+    "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -14,7 +16,10 @@
   "author": "Juwon",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.11.5",
+    "axios": "^0.20.0",
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-mongo-sanitize": "^2.0.0",
@@ -41,6 +46,7 @@
     "eslint-plugin-react": "^7.18.3",
     "ndb": "^1.1.5",
     "nodemon": "^2.0.2",
+    "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1"
   }
 }
